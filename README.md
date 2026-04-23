@@ -100,4 +100,66 @@ En pratique, la recherche des hyperparamètres optimaux est souvent l'étape la 
 
 - **Grid search** : teste toutes les combinaisons d'une grille prédéfinie
 - **Random search** : échantillonne aléatoirement dans l'espace des hyperparamètres
-- **Optimisation bayésienne** : guide la recherche intelligemment selon les résultats précédents (ex. Optuna, Ray Tune)
+- **Optimisation bayésienne** : guide la recherche intelligemment selon les résultats précédents (ex. Optuna, Ray Tune) 
+
+## Choix de l'architecture selon la tâche
+
+L'architecture d'un MLP n'est pas universelle — elle s'adapte à la nature du problème. La couche de sortie change selon qu'on cherche à prédire une valeur continue (régression) ou à assigner une classe (classification). Les couches cachées, elles, suivent des règles empiriques communes.
+
+---
+
+### Régression
+
+L'objectif est de prédire une ou plusieurs valeurs continues (prix, température, salaire…).
+
+- **Neurones de sortie** : 1 (ou N si plusieurs valeurs à prédire simultanément)
+- **Activation de sortie** : linéaire (aucune contrainte sur la valeur produite)
+- **Fonction de perte** : MSE (Mean Squared Error) ou MAE (Mean Absolute Error)
+
+> Exemple : prédire le prix d'un logement, estimer une température.
+
+---
+
+### Classification binaire
+
+L'objectif est de séparer deux classes (spam/non-spam, malade/sain…).
+
+- **Neurones de sortie** : 1
+- **Activation de sortie** : sigmoid — écrase la valeur dans ]0, 1[, interprétable comme une probabilité
+- **Seuil de décision** : 0.5 par défaut
+- **Fonction de perte** : entropie croisée binaire
+
+> Exemple : détection de spam, diagnostic médical binaire.
+
+---
+
+### Classification multiclasse
+
+L'objectif est d'attribuer l'une de N classes possibles (chiffre de 0 à 9, espèce animale, langue…).
+
+- **Neurones de sortie** : N (un par classe)
+- **Activation de sortie** : softmax — normalise les sorties en une distribution de probabilités sommant à 1
+- **Classe prédite** : celle avec la probabilité la plus élevée
+- **Fonction de perte** : entropie croisée catégorielle
+
+> Exemple : reconnaissance de chiffres manuscrits, classification d'images.
+
+---
+
+### Tableau récapitulatif
+
+| Tâche                      | Neurones de sortie | Activation de sortie | Fonction de perte              |
+|----------------------------|--------------------|----------------------|--------------------------------|
+| Régression                 | 1 (ou N valeurs)   | Linéaire             | MSE / MAE                      |
+| Classification binaire     | 1                  | Sigmoid              | Entropie croisée binaire       |
+| Classification multiclasse | N classes          | Softmax              | Entropie croisée catégorielle  |
+
+---
+
+### Règles empiriques pour les couches cachées
+
+Ces règles s'appliquent indépendamment de la tâche :
+
+- **Largeur** : souvent comprise entre la taille de la couche d'entrée et celle de la sortie. Un réseau en entonnoir (qui rétrécit progressivement) est une heuristique courante pour la classification.
+- **Profondeur** : 1 couche suffit pour des problèmes simples ; 2 à 3 couches couvrent la grande majorité des cas pratiques ; davantage est réservé aux données très structurées (images, texte).
+- **Activation des couches cachées** : ReLU (`max(0, x)`) est le choix par défaut pour sa simplicité et sa robustesse face à la disparition du gradient. 
