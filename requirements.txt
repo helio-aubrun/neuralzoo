@@ -1,0 +1,29 @@
+# ══════════════════════════════════════════════════════════════
+#  CIFAR-10 Animal Classifier — Dépendances complètes
+#  Installer avec : pip install -r requirements.txt
+# ══════════════════════════════════════════════════════════════
+
+# ── Deep Learning ─────────────────────────────────────────────
+tensorflow>=2.13.0          # Keras inclus
+
+# ── API FastAPI ───────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0   # Serveur ASGI (--reload en dev)
+python-multipart>=0.0.9     # Upload de fichiers multipart
+
+# ── Traitement d'images ───────────────────────────────────────
+Pillow>=10.0.0
+
+# ── Validation des données ────────────────────────────────────
+pydantic>=2.0.0
+
+# ── Client Streamlit ──────────────────────────────────────────
+streamlit>=1.35.0
+requests>=2.31.0
+
+# ── Data Science (notebook) ───────────────────────────────────
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
